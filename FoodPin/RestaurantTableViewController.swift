@@ -105,11 +105,14 @@ class RestaurantTableViewController: UITableViewController {
         "Thai"
     ]
     
+    var restaurantIsFavorites = Array(repeating: false, count: 21)
+    
     lazy var dataSource = configureDataSource()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.cellLayoutMarginsFollowReadableWidth = true
         tableView.dataSource = dataSource
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, String>()
@@ -131,10 +134,52 @@ class RestaurantTableViewController: UITableViewController {
             cell.locationLabel.text = self.restaurantLocations[indexPath.row]
             cell.typeLabel.text = self.restaurantTypes[indexPath.row]
             cell.thumbnailImageView.image = UIImage(named: self.restaurantImages[indexPath.row])
+            cell.accessoryType = self.restaurantIsFavorites[indexPath.row] ? .checkmark : .none
             return cell
         }
         
         return dataSource
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let optionMenu = UIAlertController(title: nil, message: "what do you want to do?", preferredStyle: .actionSheet)
+        
+        if let popOverController = optionMenu.popoverPresentationController {
+            if let cell = tableView.cellForRow(at: indexPath) {
+                popOverController.sourceView = cell
+                popOverController.sourceRect = cell.bounds
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        optionMenu.addAction(cancelAction)
+        
+        let reservationHandler = { (action: UIAlertAction) -> Void in
+            let alertMessage = UIAlertController(title: "Not available yet", message: "Sorry, this feature is not available yet. Please retry later.", preferredStyle: .alert)
+            alertMessage.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alertMessage, animated: true, completion: nil)
+        }
+        
+        let reserveAction = UIAlertAction(title: "Reserve a table", style: .default, handler: reservationHandler)
+        optionMenu.addAction(reserveAction)
+        
+        let selectedRestaurantPresentInFavorites = restaurantIsFavorites[indexPath.row]
+        let favoriteActionTitle = selectedRestaurantPresentInFavorites ? "Remove from favorites" : "Mark as favorite"
+        
+        let favoriteAction = UIAlertAction(title: favoriteActionTitle, style: .default) { action in
+            let cell = tableView.cellForRow(at: indexPath)
+            if !selectedRestaurantPresentInFavorites {
+                cell?.accessoryType = .checkmark
+                self.restaurantIsFavorites[indexPath.row] = true
+            } else {
+                cell?.accessoryType = .none
+            }
+        }
+        optionMenu.addAction(favoriteAction)
+        
+        present(optionMenu, animated: true)
+        
+        tableView.deselectRow(at: indexPath, animated: false)
     }
 
 }
