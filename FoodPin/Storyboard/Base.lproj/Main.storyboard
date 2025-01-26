@@ -3,6 +3,7 @@
     <device id="retina6_3" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Map view configurations" minToolsVersion="14.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -186,11 +187,11 @@
             <objects>
                 <viewController id="BsJ-SR-c9Q" customClass="RestaurantDetailViewController" customModule="FoodPin" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zvk-HC-ZbR">
-                        <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="pCD-cm-WeA">
-                                <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+                                <rect key="frame" x="0.0" y="0.0" width="402" height="1000"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="cms-mK-oRd" userLabel="Header View" customClass="RestaurantDetailHeaderView" customModule="FoodPin" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="402" height="445"/>
@@ -344,6 +345,38 @@
                                             <outlet property="column2TitleLabel" destination="Cio-7I-Tf4" id="Bnv-Tx-gw9"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RestaurantDetailMapCell" id="JYg-x5-Ikp" customClass="RestaurantDetailMapCell" customModule="FoodPin" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="608.66666793823242" width="402" height="220.33332824707031"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JYg-x5-Ikp" id="wIG-1Z-lDG">
+                                            <rect key="frame" x="0.0" y="0.0" width="402" height="220.33332824707031"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RQm-pQ-FLa">
+                                                    <rect key="frame" x="20" y="10" width="362" height="200.33333333333334"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="200" id="fW8-WJ-zDY"/>
+                                                    </constraints>
+                                                    <standardMapConfiguration key="preferredConfiguration"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <integer key="value" value="20"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </mapView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="RQm-pQ-FLa" firstAttribute="top" secondItem="wIG-1Z-lDG" secondAttribute="top" constant="10" id="8Nj-Gt-3eV"/>
+                                                <constraint firstItem="RQm-pQ-FLa" firstAttribute="leading" secondItem="wIG-1Z-lDG" secondAttribute="leading" constant="20" id="dCi-dK-Lmq"/>
+                                                <constraint firstAttribute="bottom" secondItem="RQm-pQ-FLa" secondAttribute="bottom" constant="10" id="pAi-DA-XBS"/>
+                                                <constraint firstAttribute="trailing" secondItem="RQm-pQ-FLa" secondAttribute="trailing" constant="20" id="t7p-7s-X4Y"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="mapView" destination="RQm-pQ-FLa" id="vzq-ww-1HR"/>
+                                            <segue destination="4kd-gZ-sxA" kind="show" identifier="showMap" id="1li-jO-FjB"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>
@@ -357,6 +390,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="oLo-wM-18P"/>
+                    <size key="freeformSize" width="402" height="1000"/>
                     <connections>
                         <outlet property="headerView" destination="cms-mK-oRd" id="Ifd-yw-1uZ"/>
                         <outlet property="tableView" destination="pCD-cm-WeA" id="1hf-rq-bTM"/>
@@ -385,6 +419,37 @@
             </objects>
             <point key="canvasLocation" x="1768.6567164179103" y="8.9244851258581228"/>
         </scene>
+        <!--Map View Controller-->
+        <scene sceneID="gVh-JC-G7n">
+            <objects>
+                <viewController id="4kd-gZ-sxA" customClass="MapViewController" customModule="FoodPin" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LTN-Nh-Yts">
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CPB-qh-J5x">
+                                <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+                                <standardMapConfiguration key="preferredConfiguration"/>
+                            </mapView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="zgg-nw-jdj"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="CPB-qh-J5x" firstAttribute="leading" secondItem="zgg-nw-jdj" secondAttribute="leading" id="1ps-se-EAR"/>
+                            <constraint firstItem="zgg-nw-jdj" firstAttribute="trailing" secondItem="CPB-qh-J5x" secondAttribute="trailing" id="4x1-51-Ecc"/>
+                            <constraint firstItem="CPB-qh-J5x" firstAttribute="top" secondItem="LTN-Nh-Yts" secondAttribute="top" id="6T4-Xg-d4s"/>
+                            <constraint firstAttribute="bottom" secondItem="CPB-qh-J5x" secondAttribute="bottom" id="djP-NO-7jZ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Iw6-Qu-n9V"/>
+                    <connections>
+                        <outlet property="mapView" destination="CPB-qh-J5x" id="35M-Go-1Ra"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x6S-52-w9b" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2654" y="9"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="WxA-sL-cLz">
             <objects>
@@ -405,7 +470,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Igg-2i-AoF"/>
+        <segue reference="kC6-lE-FtQ"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="heart" catalog="system" width="128" height="107"/>
@@ -414,7 +479,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGrayColor">
-            <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
